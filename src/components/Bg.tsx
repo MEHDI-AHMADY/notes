@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Bg() {
   return (
     <div className="fixed inset-0 w-full h-full bg-gray-900 -z-10">

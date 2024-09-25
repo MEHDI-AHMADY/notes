@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+  @apply font-Lora text-white;
+}
+
+@layer utilities {
+  .blur {
+    filter: blur(4px); 
+    transition: filter 0.3s ease; 
+  }
+}
