@@ -40,7 +40,7 @@ export default function AddNote() {
       title: title.trim(),
       text: text.trim(),
       createdAt: {
-        day: new Date().getDay(),
+        day: new Date().getDate(),
         month: new Date().getMonth() + 1,
         year: new Date().getFullYear(),
       },

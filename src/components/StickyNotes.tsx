@@ -12,8 +12,8 @@ export default function StickyNotes() {
 
   return (
     <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-10'>
-        {allNotes?.map((note:Note , i:number) => (
-            <StickyNote key={i} {...note}/>
+        {allNotes?.map((note:Note) => (
+            <StickyNote key={note.id} {...note}/>
         ))}
     </div>
   )

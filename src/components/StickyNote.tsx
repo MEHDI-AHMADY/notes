@@ -15,11 +15,12 @@ export default function StickyNote({
 }: Note) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
-  const editDialogRef = useRef<HTMLDialogElement | null>(null);
-
   const [newTitle, setNewTitle] = useState<string>(title);
   const [newText, setNewText] = useState<string>(text);
   const [newSelectedDate, setNewSelectedDate] = useState<Date | null>(deadline);
+
+  const editDialogRef = useRef<HTMLDialogElement | null>(null);
+  const deleteDialogRef = useRef<HTMLDialogElement | null>(null);
 
   const expirationDate = deadline ? deadline.toLocaleDateString("en-GB") : null;
   const { day, month, year } = createdAt;
@@ -32,13 +33,26 @@ export default function StickyNote({
 
   const { setAllNotes } = context;
 
-  const showDeleteModal = (): void => setIsShowDeleteModal(true);
+  const showDeleteModal = (): void => {
+    if (deleteDialogRef.current) {
+      deleteDialogRef.current.showModal();
+    }
+    setIsShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    if (deleteDialogRef.current) {
+      deleteDialogRef.current.close();
+    }
+    setIsShowDeleteModal(false);
+  }
 
   const deleteNoteHandler = (): void => {
     setAllNotes((prevState: Note[]) => {
       let filteredAllNotes = prevState.filter((note) => note.id !== id);
       return filteredAllNotes;
     });
+    closeModal();
   };
 
   const showEditDialogHandler = (): void => {
@@ -57,7 +71,7 @@ export default function StickyNote({
       text: newText,
       createdAt,
       deadline: newSelectedDate,
-    };
+    } as const;
 
     setAllNotes((prevState: Note[]) =>
       prevState.map((note) => (note.id === id ? (note = editedNote) : note))
@@ -81,11 +95,30 @@ export default function StickyNote({
     return () => document.body.classList.remove("blur");
   }, [isShowEditModal]);
 
+  const isDeadlineArrived = (): boolean => {
+    if (
+      deadline?.getDate() === new Date().getDate() &&
+      deadline?.getMonth() + 1 === new Date().getMonth() + 1 &&
+      deadline?.getFullYear() === new Date().getFullYear()
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const isDeadlineToday = isDeadlineArrived()
+
   return (
     <>
-      <div className="flex flex-col gap-3 relative w-full h-80 bg-white rounded-md text-black p-5 overflow-x-hidden">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold text-xl">- {title} -</h3>
+      <div
+        className={`flex flex-col gap-3 relative w-full h-80 rounded-md text-black p-5 overflow-x-hidden ${
+          isDeadlineToday ? "bg-red-300" : "bg-white"
+        }`}
+      >
+        <div className="flex items-start justify-between">
+          <h3 className="font-bold text-xl">
+            - {title} - <br /> {isDeadlineToday && "Deadline is TODAY!"}
+          </h3>
           <div className="flex items-center gap-1 text-xl cursor-pointer ">
             <MdEdit
               onClick={showEditDialogHandler}
@@ -122,10 +155,12 @@ export default function StickyNote({
         btnText="Edit"
       />
 
-        <DeleteMenu
-          isShowDeleteModal={isShowDeleteModal}
-          setIsShowDeleteModal={setIsShowDeleteModal}
-        />
+      <DeleteMenu
+        isShowDeleteModal={isShowDeleteModal}
+        ref={deleteDialogRef}
+        deleteNoteHandler={deleteNoteHandler}
+        closeDeleteModal={closeDeleteModal}
+      />
     </>
   );
 }

@@ -2,12 +2,14 @@ import { forwardRef, useEffect } from "react";
 
 type Props = {
   isShowDeleteModal: boolean;
-  setIsShowDeleteModal: (value: boolean) => void;
+  closeDeleteModal : () => void;
+  deleteNoteHandler : () => void
 };
 
 const DeleteMenu = forwardRef<HTMLDialogElement , Props>(({
   isShowDeleteModal,
-  setIsShowDeleteModal,
+  closeDeleteModal,
+  deleteNoteHandler
 } , ref) => {
 
   useEffect(() => {
@@ -22,10 +24,10 @@ const DeleteMenu = forwardRef<HTMLDialogElement , Props>(({
       <div className="flex flex-col gap-5 p-5 bg-white">
         <h3>Are You sure to delete this note ?</h3>
         <div className="flex items-center gap-4">
-          <button className="bg-red-300 p-2 rounded-full">Yes</button>
+          <button onClick={deleteNoteHandler} className="bg-red-300 p-2 rounded-full">Yes</button>
           <button
             className="bg-green-400 p-2 rounded-full"
-            onClick={() => setIsShowDeleteModal(false)}
+            onClick={closeDeleteModal}
           >
             No
           </button>
