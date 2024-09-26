@@ -6,6 +6,10 @@ import { notesContext } from "context/NotesContext";
 import Dialog from "./Dialog";
 import DeleteMenu from "./DeleteMenu";
 
+interface StickyNoteProps extends Note {
+  setActiveCard: (index: number | null) => void;
+}
+
 export default function StickyNote({
   id,
   title,
@@ -14,7 +18,7 @@ export default function StickyNote({
   deadline,
   index,
   setActiveCard
-}: Note) {
+}: StickyNoteProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>(title);

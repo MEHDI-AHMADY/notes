@@ -33,6 +33,8 @@ export default function AddNote() {
 
   const { setAllNotes } = context;
 
+  let index = 0;
+
   const addNoteHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     let newNote: Note = {
@@ -45,6 +47,7 @@ export default function AddNote() {
         year: new Date().getFullYear(),
       },
       deadline: selectedDate,
+      index : ++index
     };
 
     if (!title.trim() && !text.trim() && !selectedDate) return;

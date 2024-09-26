@@ -11,7 +11,6 @@ export interface Note {
   createdAt: CustomDate;
   deadline: Date | null;
   index:number;
-  setActiveCard: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 export interface ContextTypes {
