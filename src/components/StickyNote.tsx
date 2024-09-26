@@ -12,6 +12,8 @@ export default function StickyNote({
   text,
   createdAt,
   deadline,
+  index,
+  setActiveCard
 }: Note) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
@@ -65,13 +67,13 @@ export default function StickyNote({
   const editNoteHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    let editedNote: Note = {
+    let editedNote = {
       id,
       title: newTitle,
       text: newText,
       createdAt,
       deadline: newSelectedDate,
-    } as const;
+    } as Note;
 
     setAllNotes((prevState: Note[]) =>
       prevState.map((note) => (note.id === id ? (note = editedNote) : note))
@@ -111,7 +113,10 @@ export default function StickyNote({
   return (
     <>
       <div
-        className={`flex flex-col gap-3 relative w-full h-80 rounded-md text-black p-5 overflow-x-hidden ${
+      onDragStart={() => setActiveCard(index)}
+      onDragEnd={() => setActiveCard(null)}
+      draggable
+        className={`flex flex-col gap-3 relative w-full h-80 rounded-md text-black p-5 overflow-x-hidden cursor-grab ${
           isDeadlineToday ? "bg-red-300" : "bg-white"
         }`}
       >

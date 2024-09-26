@@ -10,6 +10,8 @@ export interface Note {
   text: string;
   createdAt: CustomDate;
   deadline: Date | null;
+  index:number;
+  setActiveCard: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 export interface ContextTypes {
