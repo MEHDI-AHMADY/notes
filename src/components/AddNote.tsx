@@ -31,9 +31,7 @@ export default function AddNote() {
   const context = useContext(notesContext);
   if (!context) return null;
 
-  const { setAllNotes } = context;
-
-  let index = 0;
+  const {allNotes, setAllNotes } = context;
 
   const addNoteHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -47,7 +45,7 @@ export default function AddNote() {
         year: new Date().getFullYear(),
       },
       deadline: selectedDate,
-      index : ++index
+      index : allNotes.length
     };
 
     if (!title.trim() && !text.trim() && !selectedDate) return;

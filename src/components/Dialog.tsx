@@ -44,11 +44,12 @@ const Dialog = forwardRef<HTMLDialogElement , ModalProps>(
           <DatePicker
             selected={selectedDate}
             minDate={new Date()}
-            onChange={(date) => setSelectedDate(date)}
+            onChange={(date:Date | null) => setSelectedDate(date)}
             placeholderText="Select a date"
             className="w-full focus:outline-none border border-black p-2 rounded-sm"
             required
             dateFormat="dd/MM/yyyy"
+            icon={null} 
           />
           <button
             type="submit"

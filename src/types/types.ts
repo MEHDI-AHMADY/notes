@@ -26,7 +26,7 @@ export type ModalProps = {
   text :string,
   setText:(value:string) => void,
   selectedDate : Date | null,
-  setSelectedDate : React.Dispatch<React.SetStateAction<Date | null>>,
+  setSelectedDate : (date: Date | null) => void,
   btnText:string,
 };
 
